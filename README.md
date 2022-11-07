@@ -1,3 +1,73 @@
+# 運行與檔案設定
+
+需要建置.env檔案
+
+將三種KEY填入
+
+```env
+ETHERSCAN_API_KEY=""
+ALCHEMY_API_KEY=""
+PRIVATE_KEY=""
+```
+
+環境正常的話應該直接跑test就可以
+
+1至5題為test.js
+
+```shell
+npx hardhat test test/test.js
+```
+
+第6題為test6.js
+
+```shell
+npx hardhat test test/test6.js
+```
+
+我自己一開始npm套件的時候全域沒分好 直接run會掛
+
+要先跑這個
+
+```shell
+npm i --save-dev hardhat --force
+```
+
+Week12 更新第6題Flashloan
+
+新增合約Flashloan.sol
+
+與test文件test6.js
+
+### 6. test 從mint開始測試到Flashloan，不還原鏈上狀態，一路執行至結束。
+
+清算獎勵_setLiquidationIncentive= 1.08
+
+log:
+
+```
+signerUSDC      mint CtokenA: 10000
+      ✔ signerUSDC mint 1000 cUDSC (2089ms)
+--------------------------------------------------------------------
+signerUNI      mint CtokenB: 1000
+      ✔ signerUNI mint 1000 cUNI (2818ms)
+--------------------------------------------------------------------
+signerUNI      borrow tokenA: 5000
+      ✔ signerUNI borrow 5000 USDC (802ms)
+--------------------------------------------------------------------
+set UNI price 6.2
+      ✔ set UNI price 6.2 (38ms)
+--------------------------------------------------------------------
+signerUSDC liquidateBorrow 2500 USDC of signerUNI
+signerUSDC  CtokenB balanceOf 0.0
+signerUNI  CtokenB balanceOf 564.516129032258064517
+FlashLoanContract USDC balanceOf BigNumber { value: "121739940" }
+      ✔ signerUSDC can liquidateBorrow signerUNI use Flashloan (24992ms)
+```
+
+透過FlashLoan清算2500顆USDC後
+
+確認最後有賺到121多顆USDC存在合約中
+
 # Wee11 的1到5題
 
 合約資料夾有其他合約，還沒整理很亂ＸＤ
@@ -67,7 +137,7 @@ User1  tokenB balanceOf 0.0
 
 4.5.這兩個test的差異只有是更改collateral factor或是oracle
 前面借貸的log都一樣，這邊只截取liquidateBorrow部分的log
-### 4 test 為 change CollateralFactor tokenA to 0.1 should liquidateBorrow ok
+### 4 test 為 change CollateralFactor tokenB to 0.1 should liquidateBorrow ok
 
 這邊測試將_setCollateralFactor改成0.1
 
