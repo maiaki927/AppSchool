@@ -46,7 +46,7 @@ log:
 
 ```
 signerUSDC      mint CtokenA: 10000
-      ✔ signerUSDC mint 1000 cUDSC (2089ms)
+      ✔ signerUSDC mint 10000 cUDSC (2089ms)
 --------------------------------------------------------------------
 signerUNI      mint CtokenB: 1000
       ✔ signerUNI mint 1000 cUNI (2818ms)
