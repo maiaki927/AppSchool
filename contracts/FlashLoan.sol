@@ -79,6 +79,9 @@ contract Useflashloan {
         address initiator,
         bytes calldata params
     ) external returns (bool) {
+
+        require(msg.sender==0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9,"only aave can call");
+        
         interface_CErc20 CErc20UNI = interface_CErc20(CErc20addressUNI);
         interface_CErc20 CErc20USDC = interface_CErc20(CErc20addressUSDC);
         IERC20(USDC).approve(CErc20addressUSDC, amounts[0]);
@@ -86,18 +89,17 @@ contract Useflashloan {
         CErc20USDC.liquidateBorrow(borrower, amounts[0], cTokenCollateral);
 
         uint256 cUNI_balance = CErc20UNI.balanceOf(address(this));
-        // console.log("-----");
+    
         CErc20UNI.redeem(cUNI_balance);
-        // console.log("-----2",cUNI_balance);
+        
         IERC20(UNI).approve(SWAP_ROUTER_02, cUNI_balance);
         swapExactInputSingle02(cUNI_balance);
-        // console.log("-----3");
+     
 
         // Approve the LendingPool contract allowance to *pull* the owed amount
         for (uint256 i = 0; i < assets.length; i++) {
             uint256 amountOwing = amounts[i] + (premiums[i]);
-            // console.log("here", assets[i]);
-            // console.log("amountOwing", amountOwing);
+        
             IERC20(assets[i]).approve(
                 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9,
                 amountOwing
@@ -126,7 +128,7 @@ contract Useflashloan {
             });
 
         amountOut = swapRouter02.exactInputSingle(params);
-        // console.log("----4",amountOut);
+     
     }
 
     function UseAAVEtoliquidate(
