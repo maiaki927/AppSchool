@@ -33,7 +33,9 @@ npx hardhat test test/test6.js
 # Week13 更新第6題Flashloan的test
 
 新增確認Flashloan.sol的executeOperation只有aave能呼叫
+
 刪除Flashloan.sol / test.js的console.log
+
 test6.js 新增更多測試
 
 ### 6. test 從mint開始測試到Flashloan，不還原鏈上狀態，一路執行至結束。
