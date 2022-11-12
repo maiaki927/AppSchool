@@ -4,7 +4,7 @@ const { BigNumber } = require("bignumber.js");
 const { LogLevel, Logger } = require("@ethersproject/logger");
 Logger.setLogLevel(LogLevel.ERROR);
 
-describe("ComptrollerG7.sol",
+describe("before set",
     () => {
 
         const e1 = 10 ** 18;

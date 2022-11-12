@@ -10,6 +10,12 @@ ALCHEMY_API_KEY=""
 PRIVATE_KEY=""
 ```
 
+安裝套件
+
+```shell
+npm i
+```
+
 環境正常的話應該直接跑test就可以
 
 1至5題為test.js
@@ -18,19 +24,41 @@ PRIVATE_KEY=""
 npx hardhat test test/test.js
 ```
 
-第6題為test6.js
+第6題flashloan為test6.js
 
 ```shell
 npx hardhat test test/test6.js
 ```
 
-我自己一開始npm套件的時候全域沒分好 直接run會掛
+# Week13 更新第6題Flashloan的test
 
-要先跑這個
+新增確認Flashloan.sol的executeOperation只有aave能呼叫
+刪除Flashloan.sol / test.js的console.log
+test6.js 新增更多測試
 
-```shell
-npm i --save-dev hardhat --force
+### 6. test 從mint開始測試到Flashloan，不還原鏈上狀態，一路執行至結束。
+
+清算上限_setCloseFactor 50%
+清算獎勵_setLiquidationIncentive= 1.08
+
+log:
+
 ```
+before set
+Q6
+✔ signerUSDC mint 10000 cUDSC (98ms)
+✔ CtokenADelegator USDC balanceOf = 10000
+✔ signerUNI mint 1000 cUNI (88ms)
+✔ CtokenBDelegator UNI balanceOf = 1000
+✔ signerUNI borrow 5000 USDC (125ms)
+✔ after borrow 5000 USDC,CtokenADelegator USDC balanceOf = 5000
+✔ set UNI price 6.2
+✔ FlashLoanContract USDC balanceOf > 0 (452ms)
+✔ after liquidateBorrow 2500 USDC, CtokenADelegator USDC balanceOf = 7500
+✔ executeOperation need require, except aave call
+```
+
+---
 
 # Week12 更新第6題Flashloan
 
