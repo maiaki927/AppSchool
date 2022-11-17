@@ -3,6 +3,7 @@ pragma solidity 0.8.17;
 
 import { ISimpleSwap } from "./interface/ISimpleSwap.sol";
 import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "hardhat/console.sol";
 
 contract SimpleSwap is ISimpleSwap, ERC20 {
     address public AToken;
@@ -30,9 +31,9 @@ contract SimpleSwap is ISimpleSwap, ERC20 {
         require(amountIn != 0, "SimpleSwap: INSUFFICIENT_INPUT_AMOUNT");
         ERC20(tokenIn).transferFrom(_msgSender(), address(this), amountIn);
 
-        if (reserveA == 0 && reserveB == 0) {
+        if (reserveA == 0 || reserveB == 0) {
             amountOut = 0;
-            updateReserves(reserveA + amountIn, reserveB - amountOut);
+           
         } else {
             amountOut = tokenIn == AToken
                 ? (amountIn * reserveB) / (reserveA + amountIn)
